@@ -22,8 +22,8 @@ pipeline {
         stage('Tag and push Docker image to AWSRegistry') {
             steps {
                 withCredentials('credentialsId: ecr:us-east-1:f9bd1cb4-5dcf-44fb-a128-2588ca4e9ae9'){
-                docker tag apacheimage 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:$BUILD_NUMBER
-                docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:$BUILD_NUMBER
+                docker tag apacheimage 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry
+                docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry
                 }
                 }
                 
