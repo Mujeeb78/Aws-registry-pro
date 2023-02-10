@@ -22,7 +22,7 @@ pipeline {
         stage('Tag and push Docker image to AWSRegistry') {
             steps {
             
-                sh 'aws ecr get-login-password --region us-east-1 | docker login --Mujeeb Ahmed AWS --Mujeeb@aws1-stdin 713884102309.dkr.ecr.us-east-1.amazonaws.com'
+                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 713884102309.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'docker tag my-registry:latest 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest'
                 sh 'docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest'
                 
