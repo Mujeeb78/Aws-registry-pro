@@ -21,7 +21,7 @@ pipeline {
         }
         stage('Tag and push Docker image to AWSRegistry') {
             steps {
-                withCredentials([<object of type com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentialsBinding>])
+                withCredentials(credentialsId: 'ecr:us-east-1:f9bd1cb4-5dcf-44fb-a128-2588ca4e9ae9)
                 {
                 docker tag apacheimage${BUILD_NUMBER}:latest 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:$BUILD_NUMBER
                 docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:$BUILD_NUMBER}
