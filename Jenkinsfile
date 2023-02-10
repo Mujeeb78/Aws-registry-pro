@@ -21,11 +21,11 @@ pipeline {
         }
         stage('Tag and push Docker image to AWSRegistry') {
             steps {
-                withCredentials('credentialsId: ecr:us-east-1:f9bd1cb4-5dcf-44fb-a128-2588ca4e9ae9'){
+            
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --Mujeeb Ahmed AWS --Mujeeb@aws1-stdin 713884102309.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'docker tag my-registry:latest 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest'
                 sh 'docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest'
-                }
+                
                 }
                 
                 }
