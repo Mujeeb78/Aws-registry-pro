@@ -1,34 +1,42 @@
 pipeline {
     agent any
+    environment {
+        AWS_ACCOUNT_ID="713884102309"
+        AWS_DEFAULT_REGION="us-east-1"
+        IMAGE_REPO_NAME="my-registry"
+        IMAGE_TAG="latest"
+        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+    }
+   
     stages {
-        stage("Checking Docker Version") {
+        
+         stage('Logging into AWS ECR') {
             steps {
-                retry(3){
-                sh "docker --version"
+                script {
+                sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 713884102309.dkr.ecr.us-east-1.amazonaws.com"
                 }
+                 
             }
         }
-        stage("Checking GIT Version") {
-            steps {
-                sh "git --version"
-            }
+        
+  
+    // Building Docker images
+    stage('Building image') {
+      steps{
+        script {
+          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
         }
-        stage('Build Docker Image with build no') {
-            steps {
-                sh 'docker build -t apacheimage:${BUILD_NUMBER} . '
-                sh 'docker images'
-            }
+      }
+    }
+   
+    // Uploading Docker images into AWS ECR
+    stage('Pushing to ECR') {
+     steps{  
+         script {
+                sh "docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"
+                sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+         }
         }
-        stage('Tag and push Docker image to AWSRegistry') {
-            steps {  
-                withEnv(["AWS_ACCESS_KEY_ID=${env.AWS_ACCESS_KEY_ID}", "AWS_SECRET_ACCESS_KEY=${env.AWS_SECRET_ACCESS_KEY}", "AWS_DEFAULT_REGION=${env.AWS_DEFAULT_REGION}"])
-                {
-                  sh 'docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 713884102309.dkr.ecr.us-east-1.amazonaws.com'
-                  sh 'docker build -t apacheimage:${BUILD_NUMBER} . '
-                  sh 'docker tag apacheimage:${BUILD_NUMBER} .'  
-                   sh 'docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry::${BUILD_NUMBER}'  
-               }
-             } 
-           }   
+      }
     }
 }
