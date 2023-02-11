@@ -21,11 +21,6 @@ pipeline {
         }
         stage('Tag and push Docker image to AWSRegistry') {
             steps {
-                sh """
-                curl "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-                unzip awscliv2.zip
-                sudo ./aws/install
-                """
             
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 713884102309.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'docker tag my-registry:latest 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest'
