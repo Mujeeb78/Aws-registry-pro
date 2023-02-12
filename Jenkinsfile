@@ -32,7 +32,7 @@ pipeline {
     stage('Pushing to ECR') {
      steps{  
          script {
-                 sh "docker tag my-registry:latest 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest"
+                 sh "docker tag apacheimage${BUILD_NUMBER}:${BUILD_NUMBER} 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest"
                 sh "docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest"
          }
         }
