@@ -5,7 +5,7 @@ pipeline {
         AWS_DEFAULT_REGION="us-east-1"
         IMAGE_REPO_NAME="my-registry"
         IMAGE_TAG="latest"
-        REPOSITORY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}"
+        REPOSITORY_URI = "713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry"
     }
    
     stages {
@@ -24,7 +24,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+          dockerImage = docker build -t my-registry .
         }
       }
     }
@@ -33,8 +33,8 @@ pipeline {
     stage('Pushing to ECR') {
      steps{  
          script {
-                sh "docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"
-                sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/${IMAGE_REPO_NAME}:${IMAGE_TAG}"
+                sh "docker tag my-registry:latest 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest"
+                sh "docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest"
          }
         }
       }
