@@ -33,7 +33,7 @@ pipeline {
      steps{  
          script {
              sh "docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"
-             sh "docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/new-registry:latest"
+             sh "docker push ${IMAGE_REPO_NAME}.713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry"
              
          }
         }
