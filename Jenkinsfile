@@ -4,7 +4,7 @@ pipeline {
         AWS_ACCOUNT_ID="713884102309"
         AWS_DEFAULT_REGION="us-east-1"
         IMAGE_REPO_NAME="apacheimage"
-        IMAGE_TAG="latest"
+        IMAGE_TAG="V1"
         REPOSITORY_URI = "713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry"
     }
    
