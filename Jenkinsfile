@@ -32,8 +32,8 @@ pipeline {
     stage('Pushing to ECR') {
      steps{  
          script {
-                sh "docker tag my-registry:latest 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest"
-                sh "docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest"
+             sh "docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}"
+               // sh "docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest"
          }
         }
       }
