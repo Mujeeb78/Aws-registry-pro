@@ -23,7 +23,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          sh "docker build -t ${IMAGE_REPO_NAME}:${IMAGE_TAG} ."
+          dockerImage = docker.build "${IMAGE_REPO_NAME}:${IMAGE_TAG}"
         }
       }
     }
@@ -32,9 +32,8 @@ pipeline {
     stage('Pushing to ECR') {
      steps{  
          script {
-             sh "docker tag ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"
-             sh "docker push ${IMAGE_REPO_NAME}:${IMAGE_TAG} ${REPOSITORY_URI}:$IMAGE_TAG"
-             
+                sh "docker tag my-registry:latest 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest"
+                sh "docker push 713884102309.dkr.ecr.us-east-1.amazonaws.com/my-registry:latest"
          }
         }
       }
